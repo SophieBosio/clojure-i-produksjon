@@ -1,0 +1,16 @@
+{:paths ["dev" "src" "test" "resources"]
+ :deps {babashka/fs {:mvn/version "0.5.33"}
+        com.datomic/peer {:mvn/version "1.0.7622"}
+        hiccup/hiccup {:mvn/version "2.0.0"}
+        http-kit/http-kit {:mvn/version "2.8.1"}
+        io.github.nextjournal/markdown {:mvn/version "0.7.225"}
+        io.github.tonsky/clj-reload {:mvn/version "1.0.0"}
+        lambdaisland/kaocha {:mvn/version "1.91.1392"}
+        nubank/matcher-combinators {:mvn/version "3.10.0"}
+        com.github.seancorfield/next.jdbc {:mvn/version "1.4.72"}
+        org.xerial/sqlite-jdbc {:mvn/version "3.49.1.0"}
+        ring/ring-core {:mvn/version "1.15.6"}
+        seancorfield/honeysql {:mvn/version "2.0.0-rc2"}}
+ :aliases
+ {:kaocha {:main-opts ["-m" "kaocha.runner"]}
+  :dev {:main-opts ["-i" "dev/user.clj" "-e" "(in-ns,'user)" "-r"]}}}
