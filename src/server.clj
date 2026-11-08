@@ -27,15 +27,25 @@
        :body (site/get-frontpage! db)}
 
       (str/starts-with? uri "/books/")
-      (let [[_ _books book-id] (str/split uri #"/")]
-        (if (and (string? book-id)
-                 (parse-uuid book-id))
+      (let [[_ _books book-id action] (str/split uri #"/")]
+        (cond
+          (not (and (string? book-id)
+                    (parse-uuid book-id)))
+          {:status 422
+           :headers {"Content-Type" "text/html"}
+           :body (site/handle-malformed!)}
+
+          (nil? action)
           {:status 200
            :headers {"Content-Type" "text/html"}
            :body (site/get-book! db book-id)}
-          {:status 422
-           :headers {"Content-Type" "text/html"}
-           :body (site/handle-malformed!)}))
+
+          (= "rate" action)
+          (let [rating  (some-> (get-in request [:form-params "rating"])
+                                parse-long)]
+            {:status 200
+             :headers {"Content-Type" "text/html"}
+             :body (site/rate-book! db book-id rating)})))
 
       (str/starts-with? uri "/images/")
       (let [[_ _images filename] (str/split uri #"/")

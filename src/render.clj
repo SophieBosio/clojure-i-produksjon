@@ -71,6 +71,19 @@
              :when (seq section-books)]
          (section status section-books)))]]])
 
+(defn rating-form
+  [book]
+  [:form {:method "post"
+          :action (str "/books/" (:id book) "/rate")}
+   [:label {:for "rating"} "Rate this book: "]
+   [:select {:name "rating" :id "rating"}
+    (->> [1 2 3 4 5]
+         (map (fn [n]
+                [:option {:value n
+                          :selected (= n (:rating book))}
+                 (str n " " (apply str (repeat n "⭐")))])))]
+   [:button {:type "submit"} "Save"]])
+
 (defn book-detail
   [book]
   [:html
@@ -89,7 +102,8 @@
       [:div {:style style/detail-info}
        [:span {:style style/pill} (->publication-stamp (:publication-year book))]
        [:span {:style style/pill} (->star-rating (:rating book))]
-       [:span {:style style/pill} (status->label (:status book))]]]]]])
+       [:span {:style style/pill} (status->label (:status book))]]
+      (rating-form book)]]]])
 
 (defn not-found
   []

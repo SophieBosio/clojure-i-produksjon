@@ -45,6 +45,12 @@
       (render-html (render/book-detail denormalized-book))
       (render-html (render/not-found)))))
 
+(defn rate-book!
+  [db id rating]
+  (when-let [book (db/query-one! db :book (db/by db :id id))]
+    (db/update! db :book {:id (:id book) :rating rating})
+    (get-book! db id)))
+
 (defn get-image!
   [filename]
   (io/resource (str "images/" filename)))
