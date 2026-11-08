@@ -1,6 +1,8 @@
 (ns site
   (:require
-   [db.atom :as db]))
+   [db.atom :as db]
+   [hiccup2.core :as hiccup]
+   [render]))
 
 (defn index-by
   [key-fn value-fn coll]
@@ -18,11 +20,17 @@
                     (assoc :cover-image (id->image-filename (:cover-image-id book)))
                     (dissoc :cover-image-id)))))))
 
+(defn render-html
+  [hiccup]
+  (str (hiccup/html hiccup)))
+
 (defn get-frontpage!
   [db]
   (let [books (db/query! db :book db/all)
         authors (db/query! db :author db/all)
         cover-images (db/query! db :cover-image db/all)
         denormalized-books (denormalize books authors cover-images)]
-    denormalized-books))
+    (->> denormalized-books
+         render/frontpage
+         render-html)))
 
