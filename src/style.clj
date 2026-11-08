@@ -55,7 +55,10 @@
        "a > article { transition: transform 150ms ease, box-shadow 150ms ease; } "
        "a:hover > article { transform: translateY(-2px); "
        "box-shadow: 0 10px 32px rgba(30, 41, 59, 0.14) !important; } "
-       "nav a:hover { color: " (clojure-colors :dark-blue) " !important; }"))
+       "nav a:hover { color: " (clojure-colors :dark-blue) " !important; } "
+       "form button:hover { background: " (clojure-colors :dark-green) " !important; } "
+       "form select:focus, form button:focus-visible { outline: 2px solid "
+       (clojure-colors :light-blue) "; outline-offset: 2px; }"))
 
 (def page-header
   "text-align: center; margin-bottom: 48px;")
@@ -156,3 +159,39 @@
   (str glass
        " text-align: center; "
        "padding: 48px 32px;"))
+
+(def rating-form
+  (str "display: flex; "
+       "flex-wrap: wrap; "
+       "align-items: center; "
+       "justify-content: center; "
+       "gap: 10px; "
+       "margin-top: 28px; "
+       "padding-top: 24px; "
+       "border-top: 1px solid rgba(30, 41, 59, 0.08);"))
+
+(def rating-label
+  (str text-muted
+       " font-size: 14px; "
+       "font-weight: 500;"))
+
+(def rating-select
+  (str "font-family: inherit; "
+       "font-size: 13px; "
+       "padding: 4px 10px; "
+       "border-radius: 999px; "
+       "background: rgba(255, 255, 255, 0.8); "
+       "border: 1px solid rgba(30, 41, 59, 0.08); "
+       "color: #1e293b;"))
+
+(def rating-button
+  (str "font-family: inherit; "
+       "font-size: 13px; "
+       "font-weight: 600; "
+       "padding: 4px 14px; "
+       "border-radius: 999px; "
+       "border: none; "
+       "cursor: pointer; "
+       "color: white; "
+       "background: " (clojure-colors :dark-blue) "; "
+       "transition: background 150ms ease;"))

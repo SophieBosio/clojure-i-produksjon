@@ -74,15 +74,16 @@
 (defn rating-form
   [book]
   [:form {:method "post"
+          :style style/rating-form
           :action (str "/books/" (:id book) "/rate")}
-   [:label {:for "rating"} "Rate this book: "]
-   [:select {:name "rating" :id "rating"}
+   [:label {:for "rating" :style style/rating-label} "Rate this book: "]
+   [:select {:name "rating" :id "rating" :style style/rating-select}
     (->> [1 2 3 4 5]
          (map (fn [n]
                 [:option {:value n
                           :selected (= n (:rating book))}
                  (str n " " (apply str (repeat n "⭐")))])))]
-   [:button {:type "submit"} "Save"]])
+   [:button {:type "submit" :style style/rating-button} "Save"]])
 
 (defn book-detail
   [book]
