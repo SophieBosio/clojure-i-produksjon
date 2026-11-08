@@ -1,18 +1,21 @@
 (ns server
   (:require
+   [db.atom :as atom]
    [org.httpkit.server :as http-kit]
-   [ring.middleware.params :as ring]))
+   [ring.middleware.params :as ring]
+   [site]))
 
 (defonce server (atom nil))
 
 (defn handler
   [request]
-  (let [uri (:uri request)]
+  (let [uri (:uri request)
+        db (:db request)]
     (cond
       (= "/" uri)
       {:status 200
        :headers {"Content-Type" "text/html"}
-       :body "<h1>It's alive!!</h1>"}
+       :body (site/get-frontpage! db)}
 
       :else
       {:status 404
@@ -21,7 +24,8 @@
 
 (defn middleware
   [request]
-  request)
+  (-> request
+      (assoc :db atom/db)))
 
 (defn start!
   [port]
@@ -35,4 +39,3 @@
   (when-let [running-server @server]
     @(http-kit/server-stop! running-server)
     (reset! server nil)))
-
