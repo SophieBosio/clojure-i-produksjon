@@ -71,8 +71,8 @@
    :connection connection})
 
 (defn- ->entity
-  [db-val query]
-  (when-let [entity (d/entity db-val query)]
+  [db-val eid]
+  (when-let [entity (d/entity db-val eid)]
     (update-keys (into {} (d/touch entity)) (comp keyword name))))
 
 (defn create!
