@@ -89,13 +89,8 @@
 
 (defn delete!
   [{:keys [connection] :as db} table entity]
-  (let [db-val (d/db connection)
-        entity-id (d/q {:find '[?e .]
-                        :where [['?e (->qualified-column table :id) (:id entity)]]}
-                       db-val)]
-    (when entity-id
-      (let [{:keys [db-before]} @(d/transact connection [[:db/retractEntity entity-id]])]
-        (->entity db-before [(->qualified-column table :id) (:id entity)])))))
+  (let [{:keys [db-before]} @(d/transact connection [[:db/retractEntity [(->qualified-column table :id) (:id entity)]]])]
+    (->entity db-before [(->qualified-column table :id) (:id entity)])))
 
 (defn query!
   [{:keys [connection] :as db} table where-clauses]
